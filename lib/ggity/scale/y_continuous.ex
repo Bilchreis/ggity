@@ -32,15 +32,17 @@ defmodule GGity.Scale.Y.Continuous do
     ]
   end
 
+  defp transformations(0.0, min, _max, %Y.Continuous{} = scale) do
+    [
+      tick_values: [min],
+      inverse: fn _value -> scale.width / 2 end,
+      transform: fn _value -> scale.width / 2 end
+    ]
+  end
+
   defp transformations(range, min, max, %Y.Continuous{} = scale) do
     raw_interval_size = range / (scale.breaks - 1)
-
-    order_of_magnitude = if raw_interval_size == 0.0 do
-      :math.ceil(:math.log10(1) - 1)
-    else
-      :math.ceil(:math.log10(raw_interval_size) - 1)
-    end
-
+    order_of_magnitude = :math.ceil(:math.log10(raw_interval_size) - 1)
     power_of_ten = :math.pow(10, order_of_magnitude)
     adjusted_interval_size = axis_interval_lookup(raw_interval_size / power_of_ten) * power_of_ten
     adjusted_min = adjusted_interval_size * Float.floor(min / adjusted_interval_size)
