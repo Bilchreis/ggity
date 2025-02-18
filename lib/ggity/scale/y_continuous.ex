@@ -32,13 +32,6 @@ defmodule GGity.Scale.Y.Continuous do
     ]
   end
 
-  defp transformations(0.0, min, _max, %Y.Continuous{} = scale) do
-    [
-      tick_values: [min],
-      inverse: fn _value -> scale.width / 2 end,
-      transform: fn _value -> scale.width / 2 end
-    ]
-  end
 
   defp transformations(range, min, max, %Y.Continuous{} = scale) do
     raw_interval_size = range / (scale.breaks - 1)
