@@ -34,9 +34,11 @@ defmodule GGity.Scale.Y.Continuous do
 
   defp transformations(range, min, max, %Y.Continuous{} = scale) do
     raw_interval_size = range / (scale.breaks - 1)
-    order_of_magnitude = case raw_interval_size do
-      0 -> 0
-      _ -> :math.ceil(:math.log10(raw_interval_size) - 1)
+
+    order_of_magnitude = if raw_interval_size == 0.0 do
+      0
+    else
+      :math.ceil(:math.log10(raw_interval_size) - 1)
     end
 
     power_of_ten = :math.pow(10, order_of_magnitude)
