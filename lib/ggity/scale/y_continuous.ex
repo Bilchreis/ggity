@@ -36,7 +36,7 @@ defmodule GGity.Scale.Y.Continuous do
     raw_interval_size = range / (scale.breaks - 1)
 
     order_of_magnitude = if raw_interval_size == 0.0 do
-      0
+      :math.ceil(:math.log10(1) - 1)
     else
       :math.ceil(:math.log10(raw_interval_size) - 1)
     end
