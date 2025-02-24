@@ -24,7 +24,7 @@ defmodule GGity.Scale.X.Continuous do
     struct(scale, transformations(range, min, max, scale))
   end
 
-  defp transformations(0, min, _max, %X.Continuous{} = scale) do
+  defp transformations(range, min, _max, %X.Continuous{} = scale) when range == 0 do
     [
       tick_values: min,
       inverse: fn _value -> min end,
